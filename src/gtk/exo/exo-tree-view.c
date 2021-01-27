@@ -565,7 +565,7 @@ exo_tree_view_button_release_event (GtkWidget      *widget,
 
       if (tree_view->priv->pending_rename)
       {
-        tree_view->priv->ren_timer = gtk_timeout_add (500, list_rename_timer, tree_view);
+        tree_view->priv->ren_timer = g_timeout_add (500, list_rename_timer, tree_view);
         tree_view->priv->pending_rename = 0;
       }
     }
