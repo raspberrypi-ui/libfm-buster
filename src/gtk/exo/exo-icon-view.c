@@ -1272,6 +1272,8 @@ exo_icon_view_init (ExoIconView *icon_view)
   icon_view->priv->pending_rename = 0;
 
   gtk_widget_set_can_focus (GTK_WIDGET (icon_view), TRUE);
+  // use "#exo-icon-view" in CSS file
+  gtk_widget_set_name (GTK_WIDGET (icon_view), "exo-icon-view");
 
 #if !GTK_CHECK_VERSION(3, 0, 0)
   exo_icon_view_set_adjustments (icon_view, NULL, NULL);
@@ -1894,6 +1896,16 @@ exo_icon_view_expose_event (GtkWidget      *widget,
    */
   if (G_UNLIKELY (priv->layout_idle_id != 0))
     return FALSE;
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+  style = gtk_widget_get_style_context (widget);
+
+  /* draw a background according to the css theme */
+  gtk_render_background (style, cr,
+                         0, 0,
+                         gtk_widget_get_allocated_width (widget),
+                         gtk_widget_get_allocated_height (widget));
+#endif
 
   /* scroll to the previously remembered path (if any) */
   if (G_UNLIKELY (priv->scroll_to_path != NULL))
